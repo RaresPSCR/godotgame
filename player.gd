@@ -5,7 +5,7 @@ const SPEED = 5.0
 const JUMP_VELOCITY = 4.5
 var mouse_sensitivity = 0.002
 
-var def_position=Vector3(0.662,-0.148,-1.091)
+var def_position=Vector3(0.35,-0.148,-0.6)
 
 var ads=false
 
@@ -63,7 +63,7 @@ func _physics_process(delta):
 			if !Input.is_action_pressed("ads"):
 				_anim_stop()
 				$AnimationPlayer.play_backwards("ads")
-				$Camera3D.fov=lerp($Camera3D.fov,75.0,6*delta)
+				$Camera3D.fov=lerp($Camera3D.fov, 75.0 ,8*delta)
 		
 		$AnimationPlayer.play("shoot")
 		
