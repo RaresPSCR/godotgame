@@ -1,0 +1,56 @@
+[gd_scene load_steps=9 format=3 uid="uid://brj70igms6c54"]
+
+[ext_resource type="PackedScene" uid="uid://rky607awovv5" path="res://player.tscn" id="1_gvf3p"]
+[ext_resource type="Texture2D" uid="uid://blnvkvrmaua26" path="res://icon.svg" id="2_bfev4"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_g2cqj"]
+sky_top_color = Color(0.298039, 0.411765, 0.917647, 1)
+sky_horizon_color = Color(0.62549, 0.653922, 0.780392, 1)
+ground_bottom_color = Color(0.203922, 0.203922, 0.203922, 1)
+ground_horizon_color = Color(0.62549, 0.653922, 0.780392, 1)
+
+[sub_resource type="Sky" id="Sky_fux3a"]
+sky_material = SubResource("ProceduralSkyMaterial_g2cqj")
+
+[sub_resource type="Environment" id="Environment_3kauo"]
+background_mode = 2
+sky = SubResource("Sky_fux3a")
+ambient_light_sky_contribution = 0.5
+ambient_light_energy = 0.0
+tonemap_mode = 2
+glow_enabled = true
+glow_normalized = true
+glow_intensity = 1.68
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_jylei"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4plu8"]
+albedo_texture = ExtResource("2_bfev4")
+metallic = 0.64
+roughness = 0.3
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_psxf5"]
+data = PackedVector3Array(1, 0, 1, -1, 0, 1, 1, 0, -1, -1, 0, 1, -1, 0, -1, 1, 0, -1)
+
+[node name="Node3D" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_3kauo")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 1.30279, 18.9353, -0.283246)
+light_color = Color(1, 1, 0.858824, 1)
+shadow_enabled = true
+
+[node name="CharacterBody3D" parent="." instance=ExtResource("1_gvf3p")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 3, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(21.5824, 0, 0, 0, 1, 0, 0, 0, 9.96471, 0, 0, 0)
+mesh = SubResource("PlaneMesh_jylei")
+surface_material_override/0 = SubResource("StandardMaterial3D_4plu8")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_psxf5")

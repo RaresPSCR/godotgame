@@ -1,0 +1,38 @@
+[gd_scene load_steps=6 format=3 uid="uid://b5bkmux17raiu"]
+
+[ext_resource type="PackedScene" uid="uid://cp117goskuscb" path="res://pusca.glb" id="1_s5oq3"]
+[ext_resource type="Texture2D" uid="uid://c4t22yh641in4" path="res://pusca_AQSWDEFRGTHYJUKILO.png" id="2_0yr06"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_050ki"]
+albedo_color = Color(0.753984, 0.753984, 0.753984, 1)
+albedo_texture = ExtResource("2_0yr06")
+metallic = 0.28
+roughness = 0.7
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jjx5k"]
+albedo_color = Color(0.603922, 0.603922, 0.603922, 1)
+metallic = 1.0
+roughness = 0.3
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lmdnf"]
+albedo_color = Color(0.164706, 0.164706, 0.164706, 1)
+
+[node name="pusca" instance=ExtResource("1_s5oq3")]
+
+[node name="Cube" parent="." index="1"]
+transform = Transform3D(0.307089, 0, 0, 0, 0.307089, 0, 0, 0, 0.307089, 7.85285, -0.588002, 0)
+surface_material_override/0 = SubResource("StandardMaterial3D_050ki")
+
+[node name="Cylinder" parent="." index="2"]
+transform = Transform3D(7.55972e-08, 0.211385, 0, -0.211385, 7.55972e-08, 0, 0, 0, 0.211385, 8.97453, -0.216376, 0)
+surface_material_override/0 = SubResource("StandardMaterial3D_jjx5k")
+
+[node name="Cube_001" parent="." index="3"]
+transform = Transform3D(0.0533628, -0.0149539, 0, 0.0149539, 0.0533628, 0, 0, 0, 0.0554185, -3.19104, -1.45271, 0)
+surface_material_override/0 = SubResource("StandardMaterial3D_lmdnf")
+
+[node name="Cube_002" parent="." index="4"]
+transform = Transform3D(0.0432372, -0.013376, 0, 0.013376, 0.0432372, 0, 0, 0, 0.045259, -2.85291, -1.2477, 0)
+
+[node name="Cube_003" parent="." index="5"]
+transform = Transform3D(0.537073, -0.0883053, 0, 0.081652, 0.580836, 0, 0, 0, 0.217029, -0.446379, -1.15377, -0.00317097)
