@@ -5,6 +5,8 @@ const SPEED = 5.0
 const JUMP_VELOCITY = 4.5
 var mouse_sensitivity = 0.002
 
+var def_position=Vector3(0.662,-0.148,-1.091)
+
 var ads=false
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
@@ -13,6 +15,10 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 func _stop_secondary_animations(): #stops unnecesary animations like inspect when needed to ads or shoot
 	if $AnimationPlayer.current_animation=="inspect":
 		$AnimationPlayer.stop()
+
+func _anim_stop():
+	$AnimationPlayer.stop()
+	$Camera3D/pusca.position=def_position
 
 func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
@@ -50,14 +56,19 @@ func _physics_process(delta):
 			ads=false
 	
 	if Input.is_action_pressed("shoot"):
-		$AnimationPlayer.play("shoot")
 		
 		#remove ads bug
 		
 		if $AnimationPlayer.current_animation=='shoot':
 			if !Input.is_action_pressed("ads"):
-				$AnimationPlayer.stop()
+				_anim_stop()
 				$AnimationPlayer.play_backwards("ads")
+				$Camera3D.fov=lerp($Camera3D.fov,75.0,6*delta)
+		
+		$AnimationPlayer.play("shoot")
+		
+		
+		#resolve stutter bug
 	
 	if not is_on_floor():
 		velocity.y -= gravity * delta
@@ -66,6 +77,10 @@ func _physics_process(delta):
 		velocity.y = JUMP_VELOCITY
 
 	var input_dir = Input.get_vector("a", "d", "w", "s")
+	if input_dir.x or input_dir.y:
+		if !$AnimationPlayer.is_playing():
+			if is_on_floor():
+				$AnimationPlayer.play("head_bob")
 	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	if direction:
 		velocity.x = direction.x * SPEED
