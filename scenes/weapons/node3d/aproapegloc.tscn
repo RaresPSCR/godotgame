@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://datttc6eeo4g4"]
+
+[ext_resource type="PackedScene" uid="uid://ckkce3le6ntfd" path="res://assets/3d/aproapegloc.glb" id="1_01obg"]
+
+[node name="aproapegloc" instance=ExtResource("1_01obg")]
