@@ -3,3 +3,27 @@
 [ext_resource type="PackedScene" uid="uid://ckkce3le6ntfd" path="res://assets/3d/aproapegloc.glb" id="1_01obg"]
 
 [node name="aproapegloc" instance=ExtResource("1_01obg")]
+
+[node name="Cube" parent="." index="0"]
+transform = Transform3D(0.450336, 0, 0, 0, 0.275099, 0, 0, 0, 0.257593, 0, 1.85, -1.45899)
+
+[node name="Empty" parent="." index="1"]
+transform = Transform3D(-3.50405e-08, 1.40145, -3.74219e-08, 0, -6.12594e-08, -0.856112, -0.801634, -6.12594e-08, 1.63576e-15, 0, 1.85, -1.45294)
+
+[node name="Cube_001" parent="." index="2"]
+transform = Transform3D(0.450336, 0, 0, 0, 0.275099, 0, 0, 0, 0.257593, 0, 1.85, -1.45899)
+
+[node name="Cube_002" parent="." index="3"]
+transform = Transform3D(0.201105, 0, 0, 0, 0.12285, 0, 0, 0, 0.0495776, 0, 1.85, -2.24074)
+
+[node name="Cube_003" parent="." index="4"]
+transform = Transform3D(0.0581685, 0, 0, 0, 0.0203374, -0.0108226, 0, 0.00699026, 0.0314872, 0, 1.85, -1.45899)
+
+[node name="Cube_004" parent="." index="5"]
+transform = Transform3D(0.450336, 0, 0, 0, 0.275099, 0, 0, 0, 0.257593, 0, 3.24603, -3.10062)
+
+[node name="Cylinder" parent="." index="6"]
+transform = Transform3D(0.450336, 0, 0, 0, -1.12597e-08, 0.275099, 0, -0.257593, -1.20249e-08, 0, 2.86991, -2.07455)
+
+[node name="Cylinder_001" parent="." index="7"]
+transform = Transform3D(0.307121, 0, 0, 0, -7.67894e-09, 0.187612, 0, -0.175674, -8.20079e-09, 0, 2.43704, -2.47595)

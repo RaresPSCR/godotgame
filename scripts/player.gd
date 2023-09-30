@@ -6,9 +6,13 @@ const JUMP_VELOCITY = 4.5
 var mouse_sensitivity = 0.002
 
 var hotbar=[null,null,null]
+var arme=["pusca","aproapegloc"]
 
 var def_position = Vector3(0.35,-0.148,-0.6)
 var def_rotation
+
+var pistol_def_position = Vector3(1.3,-1.7,-1.55)
+var pistol_def_rotation
 
 var ads=false
 
@@ -16,17 +20,24 @@ var ads=false
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 func _stop_secondary_animations(): #stops unnecesary animations like inspect when needed to ads or shoot
-	if $AnimationPlayer.current_animation=="inspect":
-		$AnimationPlayer.stop()
+	for i in arme:
+		if $Camera3D.has_node(i):
+			if $AnimationPlayer.current_animation=="inspect":
+				$AnimationPlayer.stop()
 
 func _anim_stop():
-	$AnimationPlayer.stop()
-	$Camera3D/pusca.position=def_position
+	for i in arme:
+		if $Camera3D.has_node(i):
+			$AnimationPlayer.stop()
+			$Camera3D.get_node(i).position=def_position
 
 func _ready():
-	$Camera3D/pusca.position=def_position
-	def_rotation = $Camera3D/pusca.rotation
+	hotbar=["pusca","aproapegloc","pusca"]
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	for i in arme:
+		if $Camera3D.has_node(i):
+			$Camera3D.get_node(i).position=def_position
+			def_rotation = $Camera3D.get_node(i).rotation
 
 func _input(event):
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
@@ -36,7 +47,46 @@ func _input(event):
 
 func _physics_process(delta):
 	
-	if Input.is_action_just_pressed("f") and !$Camera3D.has_node("pusca"):
+	print(hotbar)
+	
+	if Input.is_action_pressed("tab"):
+		if hotbar[1] == 'aproapegloc':
+			var pusca=preload("res://scenes/weapons/node3d/aproapegloc.tscn")
+			pusca = pusca.instantiate()
+			pusca.position = pistol_def_position
+			pusca.scale = Vector3(0.5,0.5,0.5)
+			#pusca.rotation = pistol_def_rotation
+			for i in arme:
+				if $Camera3D.has_node(i):
+					$Camera3D.get_node(i).queue_free()
+			$Camera3D.add_child(pusca)
+			var aux = hotbar[0]
+			var aux2 = hotbar[1]
+			var aux3 = hotbar[2]
+			hotbar[2]=aux
+			hotbar[1]=aux3
+			hotbar[0]="aproapegloc"
+		elif hotbar[1] == 'pusca':
+			var pusca=preload("res://scenes/weapons/node3d/pusca.tscn")
+			pusca = pusca.instantiate()
+			pusca.position = def_position
+			#pusca.scale = Vector3(0.5,0.5,0.5)
+			#pusca.rotation = pistol_def_rotation
+			for i in arme:
+				if $Camera3D.has_node(i):
+					$Camera3D.get_node(i).queue_free()
+			$Camera3D.add_child(pusca)
+			var aux = hotbar[0]
+			var aux2 = hotbar[1]
+			var aux3 = hotbar[2]
+			hotbar[2]=aux
+			hotbar[1]=aux3
+			hotbar[0]="pusca"
+	
+	if Input.is_action_just_pressed("f"):
+		for i in arme:
+			if $Camera3D.has_node(i):
+				break
 		var raycast = $Camera3D/hand
 		if raycast.is_colliding():
 			var body = raycast.get_collider()
@@ -59,7 +109,9 @@ func _physics_process(delta):
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	
 	if Input.is_action_pressed('inspect'):
-		$AnimationPlayer.play("inspect")
+		for i in arme:
+			if $Camera3D.has_node(i):
+				$AnimationPlayer.play("inspect")
 		
 	##################################################### anim stooper
 	if Input.is_action_just_pressed("ads"):
@@ -69,23 +121,30 @@ func _physics_process(delta):
 	##################################################### anim stopper
 	
 	if Input.is_action_pressed("ads"):
-		if !ads:
-			$AnimationPlayer.play("ads")
-			ads=true
+		for i in arme:
+			if $Camera3D.has_node(i):
+				if !ads:
+					$AnimationPlayer.play("ads")
+					ads=true
 	else:
-		if ads:
-			$AnimationPlayer.play_backwards("ads")
-			ads=false
+		for i in arme:
+			if $Camera3D.has_node(i):
+				if ads:
+					$AnimationPlayer.play_backwards("ads")
+					ads=false
 	
 	if Input.is_action_pressed("shoot"):
 		
-		if $AnimationPlayer.current_animation=='shoot':
-			if !Input.is_action_pressed("ads"):
-				_anim_stop()
-				$AnimationPlayer.play_backwards("ads")
-				$Camera3D.fov=lerp($Camera3D.fov, 75.0 ,18*delta)
+		for i in arme:
+			if $Camera3D.has_node(i):
 		
-		$AnimationPlayer.play("shoot")
+				if $AnimationPlayer.current_animation=='shoot':
+					if !Input.is_action_pressed("ads"):
+						_anim_stop()
+						$AnimationPlayer.play_backwards("ads")
+						$Camera3D.fov=lerp($Camera3D.fov, 75.0 ,18*delta)
+				
+				$AnimationPlayer.play("shoot")
 		
 		
 		#resolve stutter bug
